@@ -1,0 +1,81 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <form role="form" style="overflow: hidden">
+      <div class="form-group col-sm-10">
+        <label class="col-sm-1 control-label" style="text-align: right;padding: 6px 12px;">采集器编号</label>
+        <div class="col-sm-4">
+          <input type="password" class="form-control" placeholder="采集器编号">
+        </div>
+        <label class="col-sm-1 control-label" style="text-align: right;padding: 6px 12px;">工段id</label>
+        <div class="col-sm-4">
+          <input type="password" class="form-control" placeholder="工段id">
+        </div>
+        <div>
+          <button type="submit" class="btn btn-success pull-left margin-r-5">搜索</button>
+        </div>
+      </div>
+    </form>
+  </section>
+
+  <!-- Main content -->
+  <section class="content container-fluid">
+    <div class="box">
+      <div class="box-header with-border">
+        <h3 class="box-title"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">传感器列表</font></font></h3>
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body">
+        <table class="table table-bordered">
+          <tbody>
+          <tr>
+            <th style="width: 10px"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">＃</font></font></th>
+            <th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">采集器编号</font></font></th>
+            <th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">传感器编号</font></font></th>
+            <th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">震动阈值</font></font></th>
+            <th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">温、湿度周期</font></font></th>
+            <th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">温度</font></font></th>
+            <th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">湿度</font></font></th>
+            <th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">经度</font></font></th>
+            <th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">纬度</font></font></th>
+            <th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">工段id</font></font></th>
+            <th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">创建时间</font></font></th>
+            <th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">状态</font></font></th>
+            <th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">操作</font></font></th>
+          </tr>
+          <tr *ngFor="let data of sensorList; let i = index">
+            <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{i+1}}</font></font></td>
+            <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{data.collectorNumber}}</font></font></td>
+            <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{data.sensorNumber}}</font></font></td>
+            <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{data.vibrationThreshold}}</font></font></td>
+            <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{data.cycle}}</font></font></td>
+            <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{data.temperature}}</font></font></td>
+            <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{data.humidity}}</font></font></td>
+            <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{data.longitude}}</font></font></td>
+            <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{data.latitude}}</font></font></td>
+            <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{data.sectionId}}</font></font></td>
+            <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{data.creatTime}}</font></font></td>
+            <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{data.status}}</font></font></td>
+            <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><div>
+              <button class="btn btn-default margin-r-5">编辑</button>
+              <button class="btn btn-danger">删除</button>
+            </div></font></font></td>
+          </tr>
+          </tbody></table>
+      </div>
+      <!-- /.box-body -->
+      <div class="box-footer clearfix">
+        <ul class="pagination pagination-sm no-margin pull-right">
+          <li><a href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">«</font></font></a></li>
+          <li><a href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">1</font></font></a></li>
+          <li><a href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2</font></font></a></li>
+          <li><a href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3</font></font></a></li>
+          <li><a href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">»</font></font></a></li>
+        </ul>
+      </div>
+    </div>
+
+  </section>
+  <!-- /.content -->
+</div>

@@ -1,0 +1,68 @@
+<!-- Left side column. contains the logo and sidebar -->
+<aside class="main-sidebar">
+
+  <!-- sidebar: style can be found in sidebar.less -->
+  <section class="sidebar">
+    <div class="user-panel">
+      <div class="pull-left image">
+        <img src="../assets/img/user7-128x128.jpg" class="img-circle" alt="User Image">
+      </div>
+      <div class="pull-left info">
+        <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">梁小贱</font></font></p>
+        <a href="#"><i class="fa fa-circle text-success"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 线上</font></font></a>
+      </div>
+    </div>
+    <!-- Sidebar Menu -->
+    <ul class="sidebar-menu" data-widget="tree">
+      <!-- Optionally, you can add icons to the links -->
+      <li class="treeview">
+        <a href="#"><i class="fa fa-link"></i> <span>系统设置</span>
+          <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+        </a>
+        <ul class="treeview-menu">
+          <li><a href="javascript:;" [routerLink]="['system/menuList']">菜单列表</a></li>
+          <li><a href="javascript:;" [routerLink]="['system/roleList']">用户列表</a></li>
+          <li><a href="javascript:;" [routerLink]="['system/userList']">角色列表</a></li>
+        </ul>
+      </li>
+      <li class="treeview">
+        <a href="#"><i class="fa fa-link"></i> <span>短信</span>
+          <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+        </a>
+        <ul class="treeview-menu">
+          <li><a href="javascript:;" [routerLink]="['message/messageHistory']">短信发送记录</a></li>
+          <li><a href="#">签名列表</a></li>
+          <li><a href="javascript:;" [routerLink]="['message/messageTemplate']">短信模板</a></li>
+        </ul>
+      </li>
+      <li class="treeview">
+      <a href="#"><i class="fa fa-link"></i> <span>传感器</span>
+        <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+      </a>
+      <ul class="treeview-menu">
+        <li><a href="javascript:;" [routerLink]="['sensor/sensorMap']">传感器地图</a></li>
+        <li><a href="javascript:;" [routerLink]="['sensor/sensorList']">传感器列表</a></li>
+        <li><a href="#">区段列表</a></li>
+      </ul>
+    </li>
+      <li class="treeview">
+        <a href="#"><i class="fa fa-link"></i> <span>报表</span>
+          <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+        </a>
+        <ul class="treeview-menu">
+          <li><a href="javascript:;" [routerLink]="['statement/policeStatistics']">报警统计</a></li>
+        </ul>
+      </li>
+    </ul>
+    <!-- /.sidebar-menu -->
+  </section>
+  <!-- /.sidebar -->
+</aside>

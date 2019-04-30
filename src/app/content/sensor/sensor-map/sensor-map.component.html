@@ -1,0 +1,41 @@
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <form class="form-horizontal">
+      <div class="box-body">
+        <div class="form-group col-sm-6">
+            <label class="col-sm-2" style="text-align: right;padding: 6px 12px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">区段</font></font></label>
+          <div class="col-sm-6">
+            <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" (change)="changeArea($event.target.value)">
+              <option *ngFor="let ct of cities" value="{{ct.location}}"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ct.name}}</font></font></option>
+            </select>
+          </div>
+          </div>
+        <div class="form-group col-sm-6">
+          <label class="col-sm-2 control-label" style="text-align: right;padding: 6px 12px;">采集器编号</label>
+          <div class="col-sm-6">
+            <input type="password" class="form-control" placeholder="区段id">
+          </div>
+          <div>
+            <button class="btn btn-success pull-left">搜索</button>
+          </div>
+        </div>
+      </div>
+      <!-- /.box-body -->
+    </form>
+  </section>
+
+  <!-- Main content -->
+  <section class="content container-fluid">
+    <div class="box">
+      <div class="box-header with-border">
+        <h3 class="box-title"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">传感器地图</font></font></h3>
+        <button (click)="move()">change</button>
+      </div>
+      <div id="map">
+      </div>
+    </div>
+
+  </section>
+  <!-- /.content -->
+</div>

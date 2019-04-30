@@ -27,9 +27,28 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "./node_modules/admin-lte/bower_components/bootstrap/dist/css/bootstrap.css",
+              "./node_modules/admin-lte/dist/css/AdminLTE.css",
+              "./node_modules/admin-lte/dist/css/skins/skin-blue.css",
+              "./node_modules/admin-lte/bower_components/Ionicons/css/ionicons.css",
+              "./node_modules/admin-lte/bower_components/font-awesome/css/font-awesome.css",
+              "./node_modules/admin-lte/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css",
+              "./node_modules/leaflet/dist/leaflet.css",
+              "./node_modules/leaflet-routing-machine/dist/leaflet-routing-machine.css"
             ],
-            "scripts": [],
+            "scripts": [
+              "./node_modules/admin-lte/bower_components/jquery/dist/jquery.min.js",
+              "./node_modules/admin-lte/dist/js/adminlte.min.js",
+              "./node_modules/admin-lte/bower_components/bootstrap/dist/js/bootstrap.min.js",
+              "./node_modules/admin-lte/bower_components/select2/dist/js/select2.full.min.js",
+              "./node_modules/admin-lte/plugins/input-mask/jquery.inputmask.js",
+              "./node_modules/admin-lte/bower_components/moment/min/moment.min.js",
+              "./node_modules/admin-lte/bower_components/bootstrap-daterangepicker/daterangepicker.js",
+              "./node_modules/admin-lte/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js",
+              "./node_modules/leaflet/dist/leaflet.js",
+              "./node_modules/leaflet-routing-machine/dist/leaflet-routing-machine.js"
+            ],
             "es5BrowserSupport": true
           },
           "configurations": {

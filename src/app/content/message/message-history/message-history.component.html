@@ -1,0 +1,78 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <form class="form-horizontal">
+      <div class="box-body">
+        <div class="form-group col-sm-6">
+          <label class="col-sm-2  control-label">开始时间:</label>
+          <div class="input-group date col-sm-5">
+            <div class="input-group-addon">
+              <i class="fa fa-calendar"></i>
+            </div>
+            <input type="text" class="form-control pull-right" id="datepicker">
+          </div>
+          <!-- /.input group -->
+        </div>
+        <div class="form-group col-sm-6">
+          <label class="col-sm-2  control-label">结束时间:</label>
+          <div class="input-group date col-sm-5" style="float: left;">
+            <div class="input-group-addon">
+              <i class="fa fa-calendar"></i>
+            </div>
+            <input type="text" class="form-control pull-right" id="datepicker1">
+          </div>
+          <!-- /.input group -->
+        </div>
+      </div>
+      <!-- /.box-body -->
+      <div class="box-footer">
+        <button type="submit" class="btn btn-default">搜索</button>
+      </div>
+      <!-- /.box-footer -->
+    </form>
+  </section>
+
+  <!-- Main content -->
+  <section class="content container-fluid">
+    <div class="box">
+      <div class="box-header with-border">
+        <h3 class="box-title"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">短信发送记录</font></font></h3>
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body">
+        <table class="table table-bordered">
+          <tbody>
+          <tr>
+            <th style="width: 10px"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">＃</font></font></th>
+            <th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">接收手机号</font></font></th>
+            <th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">发送内容</font></font></th>
+            <th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">发送时间</font></font></th>
+            <th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">发送状态</font></font></th>
+            <th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">第三方返回结果</font></font></th>
+          </tr>
+          <tr *ngFor="let data of historyMessage; let i = index">
+            <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{i+1}}</font></font></td>
+            <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{data.phoneNumber}}</font></font></td>
+            <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{data.sendMessage}}</font></font></td>
+            <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{data.sendTime}}</font></font></td>
+            <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{data.sendStatus}}</font></font></td>
+            <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{data.result}}</font></font></td>
+          </tr>
+          </tbody></table>
+      </div>
+      <!-- /.box-body -->
+      <div class="box-footer clearfix">
+        <ul class="pagination pagination-sm no-margin pull-right">
+          <li><a href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">«</font></font></a></li>
+          <li><a href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">1</font></font></a></li>
+          <li><a href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2</font></font></a></li>
+          <li><a href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3</font></font></a></li>
+          <li><a href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">»</font></font></a></li>
+        </ul>
+      </div>
+    </div>
+
+  </section>
+  <!-- /.content -->
+</div>
