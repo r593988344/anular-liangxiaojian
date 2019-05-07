@@ -20,7 +20,8 @@ export class SensorMapComponent implements OnInit {
               private sensorListService: SensorListService) { }
   getCities(): void {
     this.allLocations = this.sensorListService.getSensorList();
-    this.cities = this.cityService.getCities();
+    this.cityService.getCities().
+    subscribe((data) => this.cities = data.cities);
   }
   setSign() {
     this.allLocations.forEach(item => {

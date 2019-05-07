@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {SensorListService} from './sensor-list.service';
 import {SensorList} from './sensor-list';
+import {SensorListService} from './sensor-list.service';
 
 @Component({
   selector: 'app-sensor-list',
@@ -11,11 +11,11 @@ export class SensorListComponent implements OnInit {
   private sensorList: Array<SensorList>;
   constructor(private sensorListService: SensorListService) { }
   getSensorLists() {
-    this.sensorList = this.sensorListService.getSensorList();
+    this.sensorListService.getSensorList()
+      .subscribe(data => {this.sensorList = data.sensorList});
   }
   ngOnInit() {
     this.getSensorLists();
-    console.log(this.sensorList);
   }
 }
 
