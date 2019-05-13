@@ -1,7 +1,7 @@
 export class SensorList {
   constructor(
-    public collectorNumber: number,
-    public sensorNumber: number,
+    public collectorNumber: string,
+    public sensorNumber: string,
     public vibrationThreshold: number,
     public cycle: string,
     public temperature: string,

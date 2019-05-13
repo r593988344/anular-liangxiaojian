@@ -16,13 +16,13 @@ export class PoliceStatisticsComponent implements OnInit {
     });
 
     this.policeStatistics = [
-      new PoliceStatistics('2019.04.30 13:45:59', 5, 12312, 34232, 4, 2),
-      new PoliceStatistics('2019.04.30 13:45:59', 5, 12312, 34232, 4, 2),
-      new PoliceStatistics('2019.04.30 13:45:59', 5, 12312, 34232, 4, 2),
-      new PoliceStatistics('2019.04.30 13:45:59', 5, 12312, 34232, 4, 2),
-      new PoliceStatistics('2019.04.30 13:45:59', 5, 12312, 34232, 4, 2),
-      new PoliceStatistics('2019.04.30 13:45:59', 5, 12312, 34232, 4, 2),
-      new PoliceStatistics('2019.04.30 13:45:59', 5, 12312, 34232, 4, 2),
+      // new PoliceStatistics('2019.04.30 13:45:59', 5, 12312, 34232, 4, 2),
+      // new PoliceStatistics('2019.04.30 13:45:59', 5, 12312, 34232, 4, 2),
+      // new PoliceStatistics('2019.04.30 13:45:59', 5, 12312, 34232, 4, 2),
+      // new PoliceStatistics('2019.04.30 13:45:59', 5, 12312, 34232, 4, 2),
+      // new PoliceStatistics('2019.04.30 13:45:59', 5, 12312, 34232, 4, 2),
+      // new PoliceStatistics('2019.04.30 13:45:59', 5, 12312, 34232, 4, 2),
+      // new PoliceStatistics('2019.04.30 13:45:59', 5, 12312, 34232, 4, 2),
     ];
   }
 
@@ -31,11 +31,11 @@ export class PoliceStatisticsComponent implements OnInit {
 export class PoliceStatistics {
   constructor(
     public alarmingTIme: string,
-    public alarmLevel: number,
-    public sectionId: number,
-    public manageId: number,
-    public collectorNumber: number,
-    public sensorNumber: number
+    public alarmLevel: string,
+    public sectionId: string,
+    public manageId: string,
+    public collectorNumber: string,
+    public sensorNumber: string
   ) {
   }
 }
