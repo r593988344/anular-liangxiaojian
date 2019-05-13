@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component} from '@angular/core';
 // 装饰器@Component()
 @Component({
   // 元数据
@@ -8,6 +8,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 // typeScript类
-export class AppComponent {
+export class AppComponent{
   title = 'auction';
 }

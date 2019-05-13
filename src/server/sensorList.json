@@ -6,8 +6,8 @@
     "cycle": "30-300",
     "temperature": "25℃",
     "humidity": "25℃",
-    "longitude": 135,
-    "latitude":  15,
+    "longitude": 116.404,
+    "latitude":  39.915,
     "sectionId": "2345",
     "creatTime":  "2019-04-30 12:35:04",
     "status": "开启"
@@ -19,8 +19,8 @@
     "cycle": "30-233",
     "temperature": "25℃",
     "humidity": "25℃",
-    "longitude": 124,
-    "latitude":  5,
+    "longitude": 118.32,
+    "latitude":  35.89,
     "sectionId": "2345",
     "creatTime":  "2019-04-30 12:35:04",
     "status": "开启"
@@ -32,8 +32,8 @@
     "cycle": "30-300",
     "temperature": "25℃",
     "humidity": "25℃",
-    "longitude": 99,
-    "latitude":  23,
+    "longitude": 120.67,
+    "latitude":  36,
     "sectionId": "2345",
     "creatTime":  "2019-04-30 12:35:04",
     "status": "开启"
@@ -45,8 +45,8 @@
     "cycle": "30-300",
     "temperature": "25℃",
     "humidity": "25℃",
-    "longitude": 133,
-    "latitude":  12,
+    "longitude": 125.11,
+    "latitude":  30.45,
     "sectionId": "2345",
     "creatTime":  "2019-04-30 12:35:04",
     "status": "开启"

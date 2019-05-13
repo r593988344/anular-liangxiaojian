@@ -26,6 +26,16 @@ app.get("/city", function(req, res) {
     res.end(data);
   });
 });
+app.get("/historyMessage", function(req, res) {
+  res.setHeader("Content-Type", "text/plain;charset=utf-8");
+  fs.readFile(__dirname + "/" + "historyMessage.json", "utf-8", function(err, data) {
+    if (err) {
+      console.log(err);
+      return;
+    }
+    res.end(data);
+  });
+});
 app.get("/sensorList", function(req, res) {
   res.setHeader("Content-Type", "text/plain;charset=utf-8");
   fs.readFile(__dirname + "/" + "sensorList.json", "utf-8", function(err, data) {

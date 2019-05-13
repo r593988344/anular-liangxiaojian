@@ -1,57 +1,69 @@
-import { Component, OnInit } from '@angular/core';
-import {CityService} from './city.service';
+import {Component, OnInit, AfterViewChecked, AfterContentChecked} from '@angular/core';
+import {CityService, CityConfig} from './city.service';
 import {City} from './locations';
-import {SensorListService} from '../sensor-list/sensor-list.service';
+import {SensorListService, SensorConfig} from '../sensor-list/sensor-list.service';
 import {SensorList} from '../sensor-list/sensor-list';
 
-declare let L;
+declare let BMap: any;
+// declare let L;
 @Component({
   selector: 'app-sensor-map',
   templateUrl: './sensor-map.component.html',
   styleUrls: ['./sensor-map.component.scss']
 })
-export class SensorMapComponent implements OnInit {
+export class SensorMapComponent implements OnInit, AfterViewChecked , AfterContentChecked {
   private map: any;
-  private cities: City[];
+  private cities: Array<City>;
   private location: Array<number> = [115, 32.8];
   private marker: any;
+  private point: any;
   private allLocations: Array<SensorList>;
   constructor(private cityService: CityService,
               private sensorListService: SensorListService) { }
   getCities(): void {
-    this.allLocations = this.sensorListService.getSensorList();
-    this.cityService.getCities().
-    subscribe((data) => this.cities = data.cities);
+   this.sensorListService.getSensorList()
+      .subscribe((data: SensorConfig) => {
+        this.allLocations = data.sensorList;
+        this.setSign();
+      });
+   this.cityService.getCities().
+    subscribe((data: CityConfig) => {
+      this.cities = data.cities;
+     });
   }
-  setSign() {
+  setSign(): void {
+    console.log(this.allLocations);
     this.allLocations.forEach(item => {
-      const marker = L.marker([item.latitude, item.longitude]).addTo(this.map);
-      // const layer = L.Polygon([item.latitude, item.longitude]).bindPopup('Hi There!').addTo(this.map);
+      const point = new BMap.Point(item.longitude, item.latitude);
+      this.addMarker(point, item);
     });
   }
+  // 编写自定义函数,创建标注
+  addMarker(point, item) {
+    const marker = new BMap.Marker(point);
+    const label = new BMap.Label(item.collectorNumber, {offset: new BMap.Size(20, -10)});
+    marker.setLabel(label);
+    this.map.addOverlay(marker);
+  }
+
   changeArea(value) {
     const newLocation = value.split(',');
     this.location = newLocation;
-    this.map.panTo(L.latLng(this.location[1], this.location[0]));
-    this.marker.update([this.location[1], this.location[0]]);
-    this.marker.setLatLng([this.location[1], this.location[0]]);
-    this.marker.bindPopup('<b>当前所选地区</b>').openPopup();
+    this.map.panTo(new BMap.Point(this.location[0], this.location[1]));
+    this.point = new BMap.Point(this.location[0], this.location[1]);
   }
 
   ngOnInit() {
+    this.map = new BMap.Map('map');
+    this.point = new BMap.Point(116.404, 39.915);
+    this.map.centerAndZoom(this.point, 5);
+    this.map.enableScrollWheelZoom(true);     // 开启鼠标滚轮缩放
     this.getCities();
-    this.map = L.map('map').setView([32.8, 115], 8);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: 'Map data &copy; ' +
-        '<a href="https://www.openstreetmap.org/">OpenStreetMap</a>' +
-        ' contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>' +
-        ', Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-      maxZoom: 18,
-      id: 'mapbox.satellite',
-      accessToken: 'your.mapbox.access.token'
-    }).addTo(this.map);
-    this.setSign();
-    this.marker = L.marker([this.location[1], this.location[0]]).addTo(this.map);
-    this.marker.bindPopup('<b>当前所选地区</b>').openPopup();
+  }
+  ngAfterContentChecked() {
+    // this.setSign();
+  }
+  ngAfterViewChecked() {
+    // console.log(this.allLocations);
   }
 }
