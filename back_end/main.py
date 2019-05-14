@@ -14,49 +14,17 @@ from tornado import gen
 from tornado.escape import json_encode,json_decode
 import logging
 import json
-
+from query import GetListData
 
 define("http_port", default=3000, help="run on the given port", type=int)
 
 
 class SensorList(tornado.web.RequestHandler):
     def get(self):
-        data1 = {
-            "sensorList":[
-                {
-                    "collectorNumber": '112233',
-                    "sensorNumber": '223344',
-                    "vibrationThreshold": 99,
-                    "cycle": '60',
-                    "temperature": '25℃',
-                    "humidity": '50℃',
-                    "longitude": 135,
-                    "latitude":  15,
-                    "sectionId": '2345',
-                    "creatTime":  '2019-04-30 12:35:04',
-                    "status": '开启'
-                },
-                {
-                    "collectorNumber": '112233',
-                    "sensorNumber": '223344',
-                    "vibrationThreshold": 99,
-                    "cycle": '60',
-                    "temperature": '25℃',
-                    "humidity": '50℃',
-                    "longitude": 135,
-                    "latitude":  15,
-                    "sectionId": '2345',
-                    "creatTime":  '2019-05-2 12:35:04',
-                    "status": '开启'
-                },
-            ]
-        }
-
         self.set_header('Content-Type', 'application/json; charset=UTF-8')
         self.add_header("Access-Control-Allow-Origin", "*")
-        self.write(json_encode(data1))
+        self.write(json_encode(GetListData()))
         # self.finish()
-        # self.write("test")
 
 class SensorMap(tornado.web.RequestHandler):
     def get(self):
