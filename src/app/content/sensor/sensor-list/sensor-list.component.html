@@ -6,14 +6,14 @@
       <div class="form-group col-sm-10">
         <label class="col-sm-1 control-label" style="text-align: right;padding: 6px 12px;">采集器编号</label>
         <div class="col-sm-4">
-          <input type="password" class="form-control" placeholder="采集器编号">
+          <input type="password" class="form-control" placeholder="采集器编号" name="num" [(ngModel)]="num">
         </div>
         <label class="col-sm-1 control-label" style="text-align: right;padding: 6px 12px;">工段id</label>
         <div class="col-sm-4">
-          <input type="password" class="form-control" placeholder="工段id">
+          <input type="password" class="form-control" placeholder="工段id" name="sectionId" [(ngModel)]="sectionId">
         </div>
         <div>
-          <button type="submit" class="btn btn-success pull-left margin-r-5">搜索</button>
+          <button type="submit" class="btn btn-success pull-left margin-r-5" (click)="searchSensor()">搜索</button>
         </div>
       </div>
     </form>
@@ -59,7 +59,7 @@
             <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{data.status}}</font></font></td>
             <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><div>
               <button class="btn btn-default margin-r-5">编辑</button>
-              <button class="btn btn-danger">删除</button>
+              <button class="btn btn-danger" (click)="deleteSensor(data)">删除</button>
             </div></font></font></td>
           </tr>
           </tbody></table>
@@ -75,7 +75,6 @@
         </ul>
       </div>
     </div>
-
   </section>
   <!-- /.content -->
 </div>
