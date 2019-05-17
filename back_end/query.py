@@ -40,30 +40,61 @@ def GetListData():
     conn.close()
     return data
 
-def createTable():
+def CreateListTable():
     conn = sqlite3.connect('./db.sqlite3')
     c = conn.cursor()
     c.execute(
         "CREATE TABLE SensorList(\
-            collectorNumber varchar(200) not NULL,\
-            sensorNumber string varchar(200) null,\
+            collectorNumber TEXT not NULL,\
+            sensorNumber string TEXT null,\
             vibrationThreshold int,\
-            cycle varchar(200),\
-            temperature varchar(200),\
-            humidity varchar(200),\
+            cycle TEXT,\
+            temperature TEXT,\
+            humidity TEXT,\
             longitude int,\
             latitude int,\
-            sectionId varchar(200),\
-            createTime varchar(200), \
-            status varchar(200)\
+            sectionId TEXT,\
+            createTime TEXT, \
+            status TEXT\
         )"
     )
     c.close()
     conn.close()
 
+def CreateMessageTable():
+    conn = sqlite3.connect('./db.sqlite3')
+    c = conn.cursor()
+    c.execute(
+        "CREATE TABLE Message(\
+            phoneNumber TEXT not NULL,\
+            messageContent TEXT not null,\
+            sendTime TEXT not null,\
+            sendStatus TEXT not null,\
+            resule TEXT not null\
+        )"
+    )
+    c.close()
+    conn.close()
+
+def CreateAlarmTable():
+    conn = sqlite3.connect('./db.sqlite3')
+    c = conn.cursor()
+    c.execute(
+        "CREATE TABLE AlarmRecord(\
+            alarmTime TEXT not NULL,\
+            alarmLevel TEXT not null,\
+            sectionId int not null,\
+            managerId int not null,\
+            sensorId int not null,\
+            netId int not null\
+        )"
+    )
+    c.close()
+    conn.close()
 
 if __name__ == "__main__":
-
-    print(GetListData())
+    CreateAlarmTable()
+    CreateMessageTable()
+    # print(GetListData())
     # data structure dict -> list -> dict
     # createTable()
