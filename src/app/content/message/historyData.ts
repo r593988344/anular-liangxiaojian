@@ -1,9 +1,9 @@
 export class HistoryData {
   constructor(
-    public phoneNumber: number,
+    public phoneNumber: string,
     public sendMessage: string,
     public sendTime: string,
-    public sendStatus: number,
+    public sendStatus: string,
     public result: string
   ) {}
 }

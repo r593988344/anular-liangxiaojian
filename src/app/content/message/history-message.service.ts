@@ -10,7 +10,8 @@ export interface HistoryMessageConfig {
 export class HistoryMessageService {
   configUrl = 'http://127.0.0.1:3000/historyMessage';
   getMessageData() {
-  return this.http.get<HistoryMessageConfig>(this.configUrl);
+    console.log("hello")
+    return this.http.get<HistoryMessageConfig>(this.configUrl);
   }
   constructor(private http: HttpClient) { }
 }

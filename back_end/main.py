@@ -14,7 +14,7 @@ from tornado import gen
 from tornado.escape import json_encode,json_decode
 import logging
 import json
-from query import GetListData
+from query import GetListData,GetAlarmData,GetMessageData
 
 define("http_port", default=3000, help="run on the given port", type=int)
 
@@ -28,21 +28,24 @@ class SensorList(tornado.web.RequestHandler):
 
 class SensorMap(tornado.web.RequestHandler):
     def get(self):
-        self.write("heel")
+        self.set_header('Content-Type', 'application/json; charset=UTF-8')
+        self.add_header("Access-Control-Allow-Origin", "*")
+        self.write(json_encode(GetListData()))
 
 
 
 class AlarmRecord(tornado.web.RequestHandler):
     def get(self):
-        result = {
-            "result": 'success',
-            'status': True,
-            'code': 200
-        }
-        self.write(json_encode(result))
-    
+        self.set_header('Content-Type', 'application/json; charset=UTF-8')
+        self.add_header("Access-Control-Allow-Origin", "*")
+        self.write(json_encode(GetAlarmData()))
 
 
+class Message(tornado.web.RequestHandler):
+    def get(self):
+        self.set_header('Content-Type', 'application/json; charset=UTF-8')
+        self.add_header("Access-Control-Allow-Origin", "*")
+        self.write(json_encode(GetMessageData()))
 
 class TerminalHandlerServer(TCPServer):
     async def handle_stream(self, stream, address):
@@ -71,7 +74,8 @@ if __name__ == "__main__":
         handlers=[
             (r"/sensorList", SensorList),
             (r"/sensor/SensorMap",SensorMap),
-            (r"/statement/policeStatistics",AlarmRecord)
+            (r"/statement/policeStatistics",AlarmRecord),
+            (r"/historyMessage",Message)
         ]
     )
     app.listen(options.http_port)
