@@ -48,7 +48,7 @@
             <th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">传感器编号</font></font></th>
             <th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">操作</font></font></th>
           </tr>
-          <tr *ngFor="let data of policeStatistics; let i = index">
+          <tr *ngFor="let data of police; let i = index">
             <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{i+1}}</font></font></td>
             <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{data.alarmingTIme}}</font></font></td>
             <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{data.alarmLevel}}</font></font></td>

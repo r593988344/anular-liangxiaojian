@@ -1,0 +1,35 @@
+{"police":[
+  {
+    "alarmingTIme": "2019.04.30 13:45:59",
+    "alarmLevel": "5",
+    "sectionId": "4575",
+    "manageId": "65",
+    "collectorNumber": "5454",
+    "sensorNumber": "2"
+  },
+  {
+    "alarmingTIme": "2019.04.30 13:45:59",
+    "alarmLevel": "5",
+    "sectionId": "4575",
+    "manageId": "65",
+    "collectorNumber": "5454",
+    "sensorNumber": "2"
+  },
+  {
+    "alarmingTIme": "2019.04.30 13:45:59",
+    "alarmLevel": "5",
+    "sectionId": "4575",
+    "manageId": "65",
+    "collectorNumber": "5454",
+    "sensorNumber": "2"
+  },
+  {
+    "alarmingTIme": "2019.04.30 13:45:59",
+    "alarmLevel": "5",
+    "sectionId": "4575",
+    "manageId": "65",
+    "collectorNumber": "5454",
+    "sensorNumber": "2"
+  }
+]
+}

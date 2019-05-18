@@ -46,6 +46,16 @@ app.get("/sensorList", function(req, res) {
     res.end(data);
   });
 });
+app.get("/police", function(req, res) {
+  res.setHeader("Content-Type", "text/plain;charset=utf-8");
+  fs.readFile(__dirname + "/" + "police.json", "utf-8", function(err, data) {
+    if (err) {
+      console.log(err);
+      return;
+    }
+    res.end(data);
+  });
+});
 let server = app.listen(3000, function() { // 设置服务端端口为3000,即：http://127.0.0.1:3000
 
   let host = server.address().address;

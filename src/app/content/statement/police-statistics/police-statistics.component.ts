@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {PoliceService} from './police.service';
+import {Police} from './police';
 
 declare var $: any;
 @Component({
@@ -7,35 +9,19 @@ declare var $: any;
   styleUrls: ['./police-statistics.component.scss']
 })
 export class PoliceStatisticsComponent implements OnInit {
-  private policeStatistics: Array<PoliceStatistics>;
-  constructor() { }
-
+  private police: Array<Police>;
+  constructor(private policeService: PoliceService) { }
+  getPoliceData(): void {
+    this.policeService.getPoliceList().subscribe(data => {
+      this.police = data.police;
+    });
+}
   ngOnInit() {
     $('#datepicker').datepicker({
       autoclose: true
     });
-
-    this.policeStatistics = [
-      // new PoliceStatistics('2019.04.30 13:45:59', 5, 12312, 34232, 4, 2),
-      // new PoliceStatistics('2019.04.30 13:45:59', 5, 12312, 34232, 4, 2),
-      // new PoliceStatistics('2019.04.30 13:45:59', 5, 12312, 34232, 4, 2),
-      // new PoliceStatistics('2019.04.30 13:45:59', 5, 12312, 34232, 4, 2),
-      // new PoliceStatistics('2019.04.30 13:45:59', 5, 12312, 34232, 4, 2),
-      // new PoliceStatistics('2019.04.30 13:45:59', 5, 12312, 34232, 4, 2),
-      // new PoliceStatistics('2019.04.30 13:45:59', 5, 12312, 34232, 4, 2),
-    ];
+    this.getPoliceData();
   }
 
 }
 
-export class PoliceStatistics {
-  constructor(
-    public alarmingTIme: string,
-    public alarmLevel: string,
-    public sectionId: string,
-    public manageId: string,
-    public collectorNumber: string,
-    public sensorNumber: string
-  ) {
-  }
-}
