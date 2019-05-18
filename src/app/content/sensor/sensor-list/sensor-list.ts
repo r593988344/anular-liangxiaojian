@@ -3,7 +3,6 @@ export class SensorList {
     public collectorNumber: string,
     public sensorNumber: string,
     public vibrationThreshold: number,
-    public cycle: string,
     public temperature: string,
     public humidity: string,
     public longitude: number,
