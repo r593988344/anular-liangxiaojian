@@ -3,6 +3,7 @@
 
 import sqlite3
 import time
+import logging
 def GetData(type):
     if type == "sensorList":
         return GetListData()
@@ -22,14 +23,11 @@ def GetListData():
                 "collectorNumber": i[0],
                 "sensorNumber": i[1],
                 "vibrationThreshold": i[2],
-                "cycle": i[3],
-                "temperature": i[4],
-                "humidity": i[5],
-                "longitude": i[6],
-                "latitude":  i[7],
-                "sectionId": i[8],
-                "creatTime":  i[9],
-                "status": i[10],
+                "longitude": i[3],
+                "latitude":  i[4],
+                "sectionId": i[5],
+                "creatTime":  i[6],
+                "status": i[7],
             }
         )
     c.close()
@@ -83,16 +81,36 @@ def GetMessageData():
     conn.close()
     return data
 
-
-def WriteListToTable(collectorNumber,sensorNumber,vibrationThreshold=0,cycle='',temperature='',humidity='',longitude=0,latitude=0,sectionId='',creatTime='',status=''):
+'''
+mode 1:update longitude and latitude
+mode 2:update vibrationThreshold
+'''
+def WriteListToTable(mode,collectorNumber,sensorNumber,vibrationThreshold=0,longitude=0,latitude=0,sectionId='0001',creatTime=time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),status=''):
     conn = sqlite3.connect('./db.sqlite3')
     c = conn.cursor()
-    project = (collectorNumber,sensorNumber,vibrationThreshold,cycle,temperature,humidity,longitude,latitude,sectionId,creatTime,status)
-    c.execute("INSERT INTO SensorList (collectorNumber ,sensorNumber,vibrationThreshold ,cycle ,temperature ,humidity ,longitude ,latitude ,sectionId ,createTime ,status) VALUES (?,?,?,?,?,?,?,?,?,?,?)",project)
+    uniqueCode = collectorNumber+sensorNumber
+    project = (collectorNumber,sensorNumber,vibrationThreshold,longitude,latitude,sectionId,creatTime,status,uniqueCode)
+    # print(type(uniqueCode))
+    txt = 0
+    res = c.execute("SELECT * from sensorList WHERE uniqueCode LIKE '%s'"% uniqueCode)
+    
+    if len(res.fetchall()) == 0:
+        c.execute("INSERT INTO SensorList (collectorNumber ,sensorNumber,vibrationThreshold,longitude ,latitude ,sectionId ,createTime ,status,uniqueCode) VALUES (?,?,?,?,?,?,?,?,?)",project)
+        txt = 1
+    else:
+        if mode == 1:
+            c.execute("UPDATE sensorList SET longitude = ?,latitude = ? WHERE uniqueCode LIKE ?",(longitude,latitude,uniqueCode))
+            txt = 2
+        if mode == 2:
+            c.execute("UPDATE sensorList SET vibrationThreshold= ? WHERE uniqueCode LIKE ?",(vibrationThreshold,uniqueCode))
+            txt =  3
+
+    # print(next(v))
+
     conn.commit()
     c.close()
     conn.close()
-
+    return txt,uniqueCode
 
 def WriteAlarmToTable(alarmTime,alarmLevel,sectionId,manageId,sensorId,netId):
     conn = sqlite3.connect('./db.sqlite3')
@@ -181,15 +199,15 @@ def LookTable():
 
 if __name__ == "__main__": 
     # LookTable()
-    # WriteListToTable(collectorNumber='10',sensorNumber='100',creatTime=time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),status='closed')
+    WriteListToTable(mode=1,collectorNumber='0010',sensorNumber='0100',latitude=12.32,longitude=23.2,status='closed')
 
     # WriteAlarmToTable(alarmTime=time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),alarmLevel='5',sectionId='10',manageId='2',sensorId='10',netId="20")
    
     # WriteMessageToTable(phoneNumber='131****2243',messageContent='test',sendTime=time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),sendStatus='1',result="success")
     print(GetListData())
-    print('\n')
-    print(GetAlarmData())
-    print('\n')
-    print(GetMessageData())
+    # print('\n')
+    # print(GetAlarmData())
+    # print('\n')
+    # print(GetMessageData())
     # data structure dict -> list -> dict
     # createTable()

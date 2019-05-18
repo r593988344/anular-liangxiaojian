@@ -14,7 +14,7 @@ from tornado import gen
 from tornado.escape import json_encode,json_decode
 import logging
 import json
-from query import GetListData,GetAlarmData,GetMessageData
+from query import *
 
 define("http_port", default=3000, help="run on the given port", type=int)
 
@@ -41,22 +41,44 @@ class AlarmRecord(tornado.web.RequestHandler):
         self.write(json_encode(GetAlarmData()))
 
 
+
 class Message(tornado.web.RequestHandler):
     def get(self):
         self.set_header('Content-Type', 'application/json; charset=UTF-8')
         self.add_header("Access-Control-Allow-Origin", "*")
         self.write(json_encode(GetMessageData()))
 
+def LongitudeAndLaititude(data):
+    net_id = '%04d' % (data[3] <<8 | data[4])
+    sensor_id = '%04d' % (data[5] <<8 | data[6])
+    longitude = data[7] << 8 | data[8]
+    latitude = data[9] << 9 | data[10]
+    return_res = WriteListToTable(1,collectorNumber=net_id,sensorNumber=sensor_id,longitude=longitude,latitude=latitude)
+    logging.error(return_res)
+
+
+def WorkmodeHandler(data):
+    logging.error("len"+str(len(data)))
+
+handler_func = {
+    '1':LongitudeAndLaititude,
+    '6':WorkmodeHandler,
+
+}
+    
 class TerminalHandlerServer(TCPServer):
     async def handle_stream(self, stream, address):
         while True:
             try:
                 block = 1000
-                data = await stream.read_bytes(num_bytes=block,partial=False)
+                data = await stream.read_bytes(num_bytes=block,partial=True)
                 #handler your data
                 if data:
-                    logging.error(data)
-                    await stream.write(data)
+                    hex_source = data
+                    if hex_source[0] == 0xFC & hex_source[1] == 0xFC:
+                        # logging.error(str(hex_source[0]))
+                        handler_func[str(hex_source[2])](data)
+                    # await stream.write(data)
                 else:
                     logging.error("no info ")
             except StreamClosedError:

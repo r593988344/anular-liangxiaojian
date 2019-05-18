@@ -1,0 +1,11 @@
+模拟数据 Hex 
+工作模式报警
+发送至服务器
+
+workmode alarm without raw data
+FCFC 06 0000 00 0000 01 12345678 1234 ffff 01 01 f1f1
+
+
+now it represent longitude and latitude
+FCFC 01 0001 0001 2323 2323 00 F1f1
+
