@@ -9,3 +9,12 @@ FCFC 06 0000 00 0000 01 12345678 1234 ffff 01 01 f1f1
 now it represent longitude and latitude
 FCFC 01 0001 0001 2323 2323 00 F1f1
 
+Terminal will send this data packet to server to get the timestamps
+
+'''
+FCFC 05 0001 00 01 00 F1F1
+
+from the server response:
+FCFC 05 0001 13   05     13  0A   10     10
+           year month  day hour minute second
+'''

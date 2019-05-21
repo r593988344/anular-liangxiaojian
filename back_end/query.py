@@ -41,11 +41,11 @@ def GetAlarmData():
     c = conn.cursor()
     curosr = c.execute("select * from AlarmRecord")  
     data = {
-        "AlarmRecord":[
+        "police":[
         ]
     }
     for i in curosr:
-        data['AlarmRecord'].append(
+        data['police'].append(
             {
                 "alarmingTIme": i[0],
                 "alarmLevel": i[1],
