@@ -92,17 +92,17 @@ def WriteListToTable(mode,collectorNumber,sensorNumber,vibrationThreshold=0,long
     project = (collectorNumber,sensorNumber,vibrationThreshold,longitude,latitude,sectionId,creatTime,status,uniqueCode)
     # print(type(uniqueCode))
     txt = 0
-    res = c.execute("SELECT * from sensorList WHERE uniqueCode LIKE '%s'"% uniqueCode)
+    res = c.execute("SELECT * from SensorList WHERE uniqueCode LIKE '%s'"% uniqueCode)
     
     if len(res.fetchall()) == 0:
         c.execute("INSERT INTO SensorList (collectorNumber ,sensorNumber,vibrationThreshold,longitude ,latitude ,sectionId ,createTime ,status,uniqueCode) VALUES (?,?,?,?,?,?,?,?,?)",project)
         txt = 1
     else:
         if mode == 1:
-            c.execute("UPDATE sensorList SET longitude = ?,latitude = ? WHERE uniqueCode LIKE ?",(longitude,latitude,uniqueCode))
+            c.execute("UPDATE SensorList SET longitude = ?,latitude = ? WHERE uniqueCode LIKE ?",(longitude,latitude,uniqueCode))
             txt = 2
         if mode == 2:
-            c.execute("UPDATE sensorList SET vibrationThreshold= ? WHERE uniqueCode LIKE ?",(vibrationThreshold,uniqueCode))
+            c.execute("UPDATE SensorList SET vibrationThreshold= ? WHERE uniqueCode LIKE ?",(vibrationThreshold,uniqueCode))
             txt =  3
 
     # print(next(v))
