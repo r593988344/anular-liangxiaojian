@@ -66,9 +66,14 @@ def SendTimeToTerminal(data):
 def WorkmodeHandler(data):
     logging.error("len"+str(len(data)))
 
+def HeartPacket(data):
+    logging.error('%d net is alive.'%(data[3]<<8|data[4]))
+
+    
 handler_func = {
     '1':LongitudeAndLaititude,
     '5':SendTimeToTerminal,
+    '4':HeartPacket,
     '6':WorkmodeHandler,
 }
     
