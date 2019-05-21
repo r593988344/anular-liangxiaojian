@@ -55,6 +55,7 @@ def LongitudeAndLaititude(data):
     latitude = data[9] << 9 | data[10]
     return_res = WriteListToTable(1,collectorNumber=net_id,sensorNumber=sensor_id,longitude=longitude,latitude=latitude)
     logging.error(return_res)
+    return 0,bytearray()
 
 def SendTimeToTerminal(data):
     net_id = data[3] << 8 | data[4]
@@ -62,14 +63,16 @@ def SendTimeToTerminal(data):
     if data[5] == 0x00 and data[6] == 0x01:
         cur_time = time.localtime(time.time())
         return 1,bytearray([0xFC,0xFC,0x05,data[3],data[4],cur_time.tm_year-2000,cur_time.tm_mon,cur_time.tm_mday,cur_time.tm_hour,cur_time.tm_min,cur_time.tm_sec,0x00,0xF1,0xF1])
-
+    return 0,bytearray()
+    
 def WorkmodeHandler(data):
     logging.error("len"+str(len(data)))
+    return 0,bytearray()
 
 def HeartPacket(data):
     logging.error('%d net is alive.'%(data[3]<<8|data[4]))
+    return 0,bytearray()
 
-    
 handler_func = {
     '1':LongitudeAndLaititude,
     '5':SendTimeToTerminal,
