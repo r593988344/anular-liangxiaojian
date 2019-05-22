@@ -2,12 +2,13 @@
 工作模式报警
 发送至服务器
 
-workmode alarm without raw data
+0x06是网关对服务器
 FCFC 06 0000 00 0000 01 12345678 1234 ffff 01 01 f1f1
 
+0x08是传输器向网关
 
 now it represent longitude and latitude
-FCFC 01 0001 0001 2323 2323 00 F1f1
+FCFC 01 0001 0023 42cb570a 420d999a 00 F1f1
 
 Terminal will send this data packet to server to get the timestamps
 

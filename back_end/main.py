@@ -15,7 +15,7 @@ from tornado.escape import json_encode,json_decode
 import logging
 import json
 from query import *
-
+import struct
 define("http_port", default=3000, help="run on the given port", type=int)
 
 
@@ -51,8 +51,8 @@ class Message(tornado.web.RequestHandler):
 def LongitudeAndLaititude(data):
     net_id = '%04d' % (data[3] <<8 | data[4])
     sensor_id = '%04d' % (data[5] <<8 | data[6])
-    longitude = data[7] << 8 | data[8]
-    latitude = data[9] << 9 | data[10]
+    longitude = round(struct.unpack('f', bytes(reversed([data[7],data[8],data[9],data[10]])))[0],2)
+    latitude = round(struct.unpack('f', bytes(reversed([data[11],data[12],data[13],data[14]])))[0],2)
     return_res = WriteListToTable(1,collectorNumber=net_id,sensorNumber=sensor_id,longitude=longitude,latitude=latitude)
     logging.error(return_res)
     return 0,bytearray()
