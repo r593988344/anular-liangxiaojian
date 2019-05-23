@@ -79,7 +79,10 @@ handler_func = {
     '4':HeartPacket,
     '6':WorkmodeHandler,
 }
-    
+
+def trans(s):
+    return "b'%s'" % ''.join('\\x%.2x' % x for x in s)
+        
 class TerminalHandlerServer(TCPServer):
     async def handle_stream(self, stream, address):
         while True:
@@ -89,7 +92,7 @@ class TerminalHandlerServer(TCPServer):
                 #handler your data
                 if data:
                     hex_source = data
-                    logging.error("original data:" + str(data))
+                    logging.error("original data:" + trans(data))
                     if hex_source[0] == 0xFC & hex_source[1] == 0xFC:
                         # logging.error(str(hex_source[0]))
                         result = handler_func[str(hex_source[2])](data)
