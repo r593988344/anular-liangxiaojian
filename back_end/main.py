@@ -50,9 +50,9 @@ class Message(tornado.web.RequestHandler):
 
 def LongitudeAndLaititude(data):
     net_id = '%04d' % (data[3] <<8 | data[4])
-    sensor_id = '%04d' % (data[5] <<8 | data[6])
-    longitude = round(struct.unpack('f', bytes(reversed([data[7],data[8],data[9],data[10]])))[0],2)
-    latitude = round(struct.unpack('f', bytes(reversed([data[11],data[12],data[13],data[14]])))[0],2)
+    sensor_id = '%04d' % (data[6] <<8 | data[7])
+    longitude = round(struct.unpack('f', bytes(reversed([data[8],data[9],data[10],data[11]])))[0],2)
+    latitude = round(struct.unpack('f', bytes(reversed([data[12],data[13],data[14],data[15]])))[0],2)
     return_res = WriteListToTable(1,collectorNumber=net_id,sensorNumber=sensor_id,longitude=longitude,latitude=latitude)
     logging.error(return_res)
     return 0,bytearray()
@@ -62,7 +62,7 @@ def SendTimeToTerminal(data):
     logging.error(data)
     if data[5] == 0x00 and data[6] == 0x01:
         cur_time = time.localtime(time.time())
-        return 1,bytearray([0xFC,0xFC,0x05,data[3],data[4],cur_time.tm_year-2000,cur_time.tm_mon,cur_time.tm_mday,cur_time.tm_hour,cur_time.tm_min,cur_time.tm_sec,0x00,0xF1,0xF1])
+        return 1,bytearray([0xFC,0xFC,0x05,data[3],data[4],0x01,cur_time.tm_year-2000,cur_time.tm_mon,cur_time.tm_mday,cur_time.tm_hour,cur_time.tm_min,cur_time.tm_sec,0x00,0xF1,0xF1])
     return 0,bytearray()
     
 def WorkmodeHandler(data):
