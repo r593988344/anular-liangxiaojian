@@ -5,7 +5,18 @@
 0x06是网关对服务器
 FCFC 06 0000 00 0000 01 12345678 1234 ffff 01 01 f1f1
 
+b'\xfc\xfc\x06
+\x00\x01\x00\x00\x64
+\x00  报警级别
+\x00\x00\x00\x00\x5c\xe9\x6d\xda 时间戳
+\x00\x01
+\x0c\x80
+\x00\x00
+\x00\xf1
+\x00\xf1\xf1'
+--proxy-config proxy.config.json
 0x08是传输器向网关
+fc fc 06 00 01 00 00 64 00 00 00 00 00 5c e9 6d da 00 01 0c 80 00 00 00 f1 00 f1 f1
 
 now it represent longitude and latitude
 FCFC 01 0001 0023 42cb570a 420d999a 00 F1f1
@@ -19,3 +30,4 @@ from the server response:
 FCFC 05 0001 13   05     13  0A   10     10
            year month  day hour minute second
 '''
+

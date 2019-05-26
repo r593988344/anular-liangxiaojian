@@ -112,7 +112,7 @@ def WriteListToTable(mode,collectorNumber,sensorNumber,vibrationThreshold=0,long
     conn.close()
     return txt,uniqueCode
 
-def WriteAlarmToTable(alarmTime,alarmLevel,sectionId,manageId,sensorId,netId):
+def WriteAlarmToTable(alarmTime,alarmLevel,sensorId,netId,sectionId=10,manageId=2):
     conn = sqlite3.connect('./db.sqlite3')
     c = conn.cursor()
     project = (alarmTime,alarmLevel,sectionId,manageId,sensorId,netId)

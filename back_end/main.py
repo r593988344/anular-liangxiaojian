@@ -66,8 +66,12 @@ def SendTimeToTerminal(data):
     return 0,bytearray()
     
 def WorkmodeHandler(data):
-    logging.error("len"+str(len(data)))
-    return 0,bytearray()
+    net_id = '%04d' % (data[3] <<8 | data[4])
+    sensor_id = '%04d' % (data[6] <<8 | data[7])
+    alarm_level = data[8]
+    alarm_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(struct.unpack('>i', bytes([data[13],data[14],data[15],data[16]]))[0]))
+    WriteAlarmToTable(alarmTime=alarm_time,alarmLevel=alarm_level,sensorId=sensor_id,netId=net_id)
+    return 0, bytearray()
 
 def HeartPacket(data):
     logging.error('%d net is alive.'%(data[3]<<8|data[4]))
@@ -92,13 +96,11 @@ class TerminalHandlerServer(TCPServer):
                 #handler your data
                 if data:
                     hex_source = data
-                    logging.error("original data:" + trans(data))
+                    # logging.error("original data:" + trans(data))
                     if hex_source[0] == 0xFC & hex_source[1] == 0xFC:
-                        # logging.error(str(hex_source[0]))
                         result = handler_func[str(hex_source[2])](data)
                         if result[0] == 1:
                             await stream.write(result[1])
-                    # await stream.write(data)
                 else:
                     logging.error("no info ")
             except StreamClosedError:
