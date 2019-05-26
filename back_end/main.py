@@ -15,7 +15,7 @@ from tornado.escape import json_encode,json_decode
 import logging
 import json
 from query import *
-
+import struct
 define("http_port", default=3000, help="run on the given port", type=int)
 
 
@@ -50,22 +50,51 @@ class Message(tornado.web.RequestHandler):
 
 def LongitudeAndLaititude(data):
     net_id = '%04d' % (data[3] <<8 | data[4])
-    sensor_id = '%04d' % (data[5] <<8 | data[6])
-    longitude = data[7] << 8 | data[8]
-    latitude = data[9] << 9 | data[10]
+    sensor_id = '%04d' % (data[6] <<8 | data[7])
+    longitude = round(struct.unpack('f', bytes(reversed([data[8],data[9],data[10],data[11]])))[0],2)
+    latitude = round(struct.unpack('f', bytes(reversed([data[12],data[13],data[14],data[15]])))[0],2)
     return_res = WriteListToTable(1,collectorNumber=net_id,sensorNumber=sensor_id,longitude=longitude,latitude=latitude)
     logging.error(return_res)
+    return 0,bytearray()
+
+def SendMessage():
+    return 1
 
 
+async def DistributeTask():
+    WriteMessageToTable("xxx","It's a test messaga",sendStatus=1,result=SendMessage())
+
+def SendTimeToTerminal(data):
+    net_id = data[3] << 8 | data[4]
+    logging.error(data)
+    if data[5] == 0x00 and data[6] == 0x01:
+        cur_time = time.localtime(time.time())
+        return 1,bytearray([0xFC,0xFC,0x05,data[3],data[4],0x01,cur_time.tm_year-2000,cur_time.tm_mon,cur_time.tm_mday,cur_time.tm_hour,cur_time.tm_min,cur_time.tm_sec,0x00,0xF1,0xF1])
+    return 0,bytearray()
+    
 def WorkmodeHandler(data):
-    logging.error("len"+str(len(data)))
+    net_id = '%04d' % (data[3] <<8 | data[4])
+    sensor_id = '%04d' % (data[6] <<8 | data[7])
+    logging.info("There is a alarm from net %s,sensor %s"%(net_id,sensor_id))
+    alarm_level = data[8]
+    alarm_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(struct.unpack('>i', bytes([data[13],data[14],data[15],data[16]]))[0]))
+    WriteAlarmToTable(alarmTime=alarm_time,alarmLevel=alarm_level,sensorId=sensor_id,netId=net_id)
+    return 2, bytearray()
+
+def HeartPacket(data):
+    logging.error('%d net is alive.'%(data[3]<<8|data[4]))
+    return 0,bytearray()
 
 handler_func = {
     '1':LongitudeAndLaititude,
+    '5':SendTimeToTerminal,
+    '4':HeartPacket,
     '6':WorkmodeHandler,
-
 }
-    
+
+def trans(s):
+    return "b'%s'" % ''.join('\\x%.2x' % x for x in s)
+        
 class TerminalHandlerServer(TCPServer):
     async def handle_stream(self, stream, address):
         while True:
@@ -75,10 +104,13 @@ class TerminalHandlerServer(TCPServer):
                 #handler your data
                 if data:
                     hex_source = data
+                    # logging.error("original data:" + trans(data))
                     if hex_source[0] == 0xFC & hex_source[1] == 0xFC:
-                        # logging.error(str(hex_source[0]))
-                        handler_func[str(hex_source[2])](data)
-                    # await stream.write(data)
+                        result = handler_func[str(hex_source[2])](data)
+                        if result[0] == 1:
+                            await stream.write(result[1])
+                        elif result[0] == 2:
+                            await DistributeTask()
                 else:
                     logging.error("no info ")
             except StreamClosedError:
@@ -96,12 +128,12 @@ if __name__ == "__main__":
         handlers=[
             (r"/sensorList", SensorList),
             (r"/sensor/SensorMap",SensorMap),
-            (r"/statement/policeStatistics",AlarmRecord),
+            (r"/police",AlarmRecord),
             (r"/historyMessage",Message)
         ]
     )
     app.listen(options.http_port)
     server = TerminalHandlerServer()
-    server.listen(9990)
+    server.listen(9999)
     server.start()
     tornado.ioloop.IOLoop.current().start()

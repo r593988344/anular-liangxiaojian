@@ -41,11 +41,11 @@ def GetAlarmData():
     c = conn.cursor()
     curosr = c.execute("select * from AlarmRecord")  
     data = {
-        "AlarmRecord":[
+        "police":[
         ]
     }
     for i in curosr:
-        data['AlarmRecord'].append(
+        data['police'].append(
             {
                 "alarmingTIme": i[0],
                 "alarmLevel": i[1],
@@ -92,17 +92,17 @@ def WriteListToTable(mode,collectorNumber,sensorNumber,vibrationThreshold=0,long
     project = (collectorNumber,sensorNumber,vibrationThreshold,longitude,latitude,sectionId,creatTime,status,uniqueCode)
     # print(type(uniqueCode))
     txt = 0
-    res = c.execute("SELECT * from sensorList WHERE uniqueCode LIKE '%s'"% uniqueCode)
+    res = c.execute("SELECT * from SensorList WHERE uniqueCode LIKE '%s'"% uniqueCode)
     
     if len(res.fetchall()) == 0:
         c.execute("INSERT INTO SensorList (collectorNumber ,sensorNumber,vibrationThreshold,longitude ,latitude ,sectionId ,createTime ,status,uniqueCode) VALUES (?,?,?,?,?,?,?,?,?)",project)
         txt = 1
     else:
         if mode == 1:
-            c.execute("UPDATE sensorList SET longitude = ?,latitude = ? WHERE uniqueCode LIKE ?",(longitude,latitude,uniqueCode))
+            c.execute("UPDATE SensorList SET longitude = ?,latitude = ? WHERE uniqueCode LIKE ?",(longitude,latitude,uniqueCode))
             txt = 2
         if mode == 2:
-            c.execute("UPDATE sensorList SET vibrationThreshold= ? WHERE uniqueCode LIKE ?",(vibrationThreshold,uniqueCode))
+            c.execute("UPDATE SensorList SET vibrationThreshold= ? WHERE uniqueCode LIKE ?",(vibrationThreshold,uniqueCode))
             txt =  3
 
     # print(next(v))
@@ -112,7 +112,7 @@ def WriteListToTable(mode,collectorNumber,sensorNumber,vibrationThreshold=0,long
     conn.close()
     return txt,uniqueCode
 
-def WriteAlarmToTable(alarmTime,alarmLevel,sectionId,manageId,sensorId,netId):
+def WriteAlarmToTable(alarmTime,alarmLevel,sensorId,netId,sectionId=10,manageId=2):
     conn = sqlite3.connect('./db.sqlite3')
     c = conn.cursor()
     project = (alarmTime,alarmLevel,sectionId,manageId,sensorId,netId)
@@ -122,7 +122,7 @@ def WriteAlarmToTable(alarmTime,alarmLevel,sectionId,manageId,sensorId,netId):
     conn.close()
 
 
-def WriteMessageToTable(phoneNumber,messageContent,sendTime,sendStatus,result):
+def WriteMessageToTable(phoneNumber,messageContent,sendStatus,result,sendTime=time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())):
     conn = sqlite3.connect('./db.sqlite3')
     c = conn.cursor()
     project = (phoneNumber,messageContent,sendTime,sendStatus,result)
@@ -132,6 +132,15 @@ def WriteMessageToTable(phoneNumber,messageContent,sendTime,sendStatus,result):
     conn.close()
 
 
+def ClearAllTable():
+    conn = sqlite3.connect("./db.sqlite3")
+    c = conn.cursor()
+    c.execute("delete from Message")
+    c.execute("delete from SensorList")
+    c.execute("delete from Message")
+    c.execute("delete from AlarmRecord")
+    c.close()
+    conn.close()
 
 def CreateListTable():
     conn = sqlite3.connect('./db.sqlite3')
@@ -199,12 +208,12 @@ def LookTable():
 
 if __name__ == "__main__": 
     # LookTable()
-    WriteListToTable(mode=1,collectorNumber='0010',sensorNumber='0100',latitude=12.32,longitude=23.2,status='closed')
-
+    # WriteListToTable(mode=1,collectorNumber='0010',sensorNumber='0100',latitude=12.32,longitude=23.2,status='closed')
+    ClearAllTable()
     # WriteAlarmToTable(alarmTime=time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),alarmLevel='5',sectionId='10',manageId='2',sensorId='10',netId="20")
    
     # WriteMessageToTable(phoneNumber='131****2243',messageContent='test',sendTime=time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),sendStatus='1',result="success")
-    print(GetListData())
+    # print(GetListData())
     # print('\n')
     # print(GetAlarmData())
     # print('\n')
