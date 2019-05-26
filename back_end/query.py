@@ -122,7 +122,7 @@ def WriteAlarmToTable(alarmTime,alarmLevel,sensorId,netId,sectionId=10,manageId=
     conn.close()
 
 
-def WriteMessageToTable(phoneNumber,messageContent,sendTime,sendStatus,result):
+def WriteMessageToTable(phoneNumber,messageContent,sendStatus,result,sendTime=time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())):
     conn = sqlite3.connect('./db.sqlite3')
     c = conn.cursor()
     project = (phoneNumber,messageContent,sendTime,sendStatus,result)
@@ -132,6 +132,15 @@ def WriteMessageToTable(phoneNumber,messageContent,sendTime,sendStatus,result):
     conn.close()
 
 
+def ClearAllTable():
+    conn = sqlite3.connect("./db.sqlite3")
+    c = conn.cursor()
+    c.execute("delete from Message")
+    c.execute("delete from SensorList")
+    c.execute("delete from Message")
+    c.execute("delete from AlarmRecord")
+    c.close()
+    conn.close()
 
 def CreateListTable():
     conn = sqlite3.connect('./db.sqlite3')
@@ -199,12 +208,12 @@ def LookTable():
 
 if __name__ == "__main__": 
     # LookTable()
-    WriteListToTable(mode=1,collectorNumber='0010',sensorNumber='0100',latitude=12.32,longitude=23.2,status='closed')
-
+    # WriteListToTable(mode=1,collectorNumber='0010',sensorNumber='0100',latitude=12.32,longitude=23.2,status='closed')
+    ClearAllTable()
     # WriteAlarmToTable(alarmTime=time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),alarmLevel='5',sectionId='10',manageId='2',sensorId='10',netId="20")
    
     # WriteMessageToTable(phoneNumber='131****2243',messageContent='test',sendTime=time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),sendStatus='1',result="success")
-    print(GetListData())
+    # print(GetListData())
     # print('\n')
     # print(GetAlarmData())
     # print('\n')

@@ -57,6 +57,13 @@ def LongitudeAndLaititude(data):
     logging.error(return_res)
     return 0,bytearray()
 
+def SendMessage():
+    return 1
+
+
+async def DistributeTask():
+    WriteMessageToTable("xxx","It's a test messaga",sendStatus=1,result=SendMessage())
+
 def SendTimeToTerminal(data):
     net_id = data[3] << 8 | data[4]
     logging.error(data)
@@ -68,10 +75,11 @@ def SendTimeToTerminal(data):
 def WorkmodeHandler(data):
     net_id = '%04d' % (data[3] <<8 | data[4])
     sensor_id = '%04d' % (data[6] <<8 | data[7])
+    logging.info("There is a alarm from net %s,sensor %s"%(net_id,sensor_id))
     alarm_level = data[8]
     alarm_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(struct.unpack('>i', bytes([data[13],data[14],data[15],data[16]]))[0]))
     WriteAlarmToTable(alarmTime=alarm_time,alarmLevel=alarm_level,sensorId=sensor_id,netId=net_id)
-    return 0, bytearray()
+    return 2, bytearray()
 
 def HeartPacket(data):
     logging.error('%d net is alive.'%(data[3]<<8|data[4]))
@@ -101,6 +109,8 @@ class TerminalHandlerServer(TCPServer):
                         result = handler_func[str(hex_source[2])](data)
                         if result[0] == 1:
                             await stream.write(result[1])
+                        elif result[0] == 2:
+                            await DistributeTask()
                 else:
                     logging.error("no info ")
             except StreamClosedError:
