@@ -23,6 +23,7 @@ export class SensorListComponent implements OnInit {
   confirmChange() {
     this.sensorListService.change(this.vibrationThresholdId, this.vibrationThresholdVal)
       .subscribe(() => {
+        this.dialog = false;
         this.getSensorLists();
       });
   }
