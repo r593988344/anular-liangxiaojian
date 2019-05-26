@@ -52,7 +52,7 @@
             <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{data.creatTime}}</font></font></td>
             <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{data.status}}</font></font></td>
             <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><div>
-              <button class="btn btn-default margin-r-5">编辑</button>
+              <button class="btn btn-default margin-r-5" (click)="edit(data.sectionId,data.vibrationThreshold )">编辑</button>
               <button class="btn btn-danger">删除</button>
             </div></font></font></td>
           </tr>
@@ -72,4 +72,13 @@
 
   </section>
   <!-- /.content -->
+  <div *ngIf="dialog" style="position: absolute;left: 50%;top: 50%;width: 300px;height: 200px;margin-left: -150px;margin-top: -100px;border: 2px solid #000;background-color: #fff;border-radius: 10px">
+    <div style="text-align: center;line-height: 46px;font-size: 18px">修改震动阈值</div>
+    <label style="padding-left: 20px; ">震动阈值</label>
+    <input type="text" style="margin-top: 50px;margin-left: 10px;" [(ngModel)]="vibrationThresholdVal" name="input">
+    <div style="text-align: center;padding: 15px 0;">
+      <button class="btn btn-primary" style="margin-right: 10px;" (click)="confirmChange()">确认修改</button>
+      <button class="btn btn-default" (click)="cancel()">取消</button>
+    </div>
+  </div>
 </div>

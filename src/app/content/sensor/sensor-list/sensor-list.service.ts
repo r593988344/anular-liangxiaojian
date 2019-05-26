@@ -13,9 +13,14 @@ export interface SensorConfig {
 
 export class SensorListService {
   sensorListUrl =  'http://127.0.0.1:3000/sensorList';
+  changeUrl =  'http://127.0.0.1:3000/change';
   getSensorList() {
     // return SensorListMock;
     return this.http.get<SensorConfig>(this.sensorListUrl);
+}
+  change(id, value) {
+    let data = { id: id, value: value}
+    return this.http.get(this.changeUrl, { params: data });
 }
 constructor(private http: HttpClient) { }
 }
