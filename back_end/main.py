@@ -40,7 +40,17 @@ class AlarmRecord(tornado.web.RequestHandler):
         self.add_header("Access-Control-Allow-Origin", "*")
         self.write(json_encode(GetAlarmData()))
 
-
+class ChangeThreshold(tornado.web.RequestHandler):
+    def get(self):
+        self.set_header('Content-Type', 'application/json; charset=UTF-8')
+        self.add_header("Access-Control-Allow-Origin", "*")
+        sensor_id =self.get_argument("id")
+        net_id =self.get_argument("n_id")
+        v_t = self.get_argument("value")
+        # return_res = WriteListToTable(2, collectorNumber=net_id, sensorNumber=sensor_id,vibrationThreshold=v_t)
+        print(net_id)
+        # data = []
+        # return 1,bytearray([0xFC,0xFC,0x05,data[3],data[4],0x00,0xF1,0xF1])
 
 class Message(tornado.web.RequestHandler):
     def get(self):
@@ -54,7 +64,7 @@ def LongitudeAndLaititude(data):
     longitude = round(struct.unpack('f', bytes(reversed([data[8],data[9],data[10],data[11]])))[0],2)
     latitude = round(struct.unpack('f', bytes(reversed([data[12],data[13],data[14],data[15]])))[0],2)
     return_res = WriteListToTable(1,collectorNumber=net_id,sensorNumber=sensor_id,longitude=longitude,latitude=latitude)
-    logging.error(return_res)
+    # logging.error(return_res)
     return 0,bytearray()
 
 def SendMessage():
@@ -129,7 +139,8 @@ if __name__ == "__main__":
             (r"/sensorList", SensorList),
             (r"/sensor/SensorMap",SensorMap),
             (r"/police",AlarmRecord),
-            (r"/historyMessage",Message)
+            (r"/historyMessage",Message),
+            (r"/change",ChangeThreshold)
         ]
     )
     app.listen(options.http_port)
