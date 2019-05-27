@@ -14,6 +14,7 @@ export class SensorListComponent implements OnInit {
   vibrationThresholdId: any;
   vibrationThresholdNetId: any;
   vibrationThresholdVal: any;
+  sectionId: any;
   constructor(private sensorListService: SensorListService) { }
   getSensorLists() {
     this.sensorListService.getSensorList()
@@ -28,7 +29,7 @@ export class SensorListComponent implements OnInit {
         this.getSensorLists();
       });
   }
-  edit(id, n_id,value) {
+  edit(id, n_id, value) {
     this.vibrationThresholdId = id;
     this.vibrationThresholdNetId = n_id; 
     this.vibrationThresholdVal = value;
