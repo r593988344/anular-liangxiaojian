@@ -40,17 +40,27 @@ class AlarmRecord(tornado.web.RequestHandler):
         self.add_header("Access-Control-Allow-Origin", "*")
         self.write(json_encode(GetAlarmData()))
 
+send_threshold = False
+threshold_packet = []
 class ChangeThreshold(tornado.web.RequestHandler):
     def get(self):
+        global send_threshold
+        global threshold_packet
         self.set_header('Content-Type', 'application/json; charset=UTF-8')
         self.add_header("Access-Control-Allow-Origin", "*")
         sensor_id =self.get_argument("id")
         net_id =self.get_argument("n_id")
         v_t = self.get_argument("value")
-        # return_res = WriteListToTable(2, collectorNumber=net_id, sensorNumber=sensor_id,vibrationThreshold=v_t)
-        print(net_id)
-        # data = []
-        # return 1,bytearray([0xFC,0xFC,0x05,data[3],data[4],0x00,0xF1,0xF1])
+        v = int(v_t)
+        if(v>500):
+            v = 500
+
+        send_threshold = True
+        return_res = WriteListToTable(2, collectorNumber=sensor_id, sensorNumber=net_id,vibrationThreshold=v)
+        net_val = int(net_id).to_bytes(2,"big")
+        sensor_val = int(sensor_id).to_bytes(2,"big")
+        v_val = v.to_bytes(2,"big")
+        threshold_packet = bytearray([0xFC,0xFC,0xA1,net_val[0],net_val[1],0x01,sensor_val[0],sensor_val[1],0x00,0x00,v_val[0],v_val[1],0x00,0x00,0xF1,0xF1])
 
 class Message(tornado.web.RequestHandler):
     def get(self):
@@ -63,7 +73,7 @@ def LongitudeAndLaititude(data):
     sensor_id = '%04d' % (data[6] <<8 | data[7])
     longitude = round(struct.unpack('f', bytes(reversed([data[8],data[9],data[10],data[11]])))[0],2)
     latitude = round(struct.unpack('f', bytes(reversed([data[12],data[13],data[14],data[15]])))[0],2)
-    return_res = WriteListToTable(1,collectorNumber=net_id,sensorNumber=sensor_id,longitude=longitude,latitude=latitude)
+    return_res = WriteListToTable(1,collectorNumber=sensor_id,sensorNumber=net_id,longitude=longitude,latitude=latitude)
     # logging.error(return_res)
     return 0,bytearray()
 
@@ -93,7 +103,14 @@ def WorkmodeHandler(data):
 
 def HeartPacket(data):
     logging.error('%d net is alive.'%(data[3]<<8|data[4]))
-    return 0,bytearray()
+    global send_threshold
+    global threshold_packet
+    if send_threshold == True:
+        logging.info("send threshold to terminal")
+        send_threshold = False
+        return 1,threshold_packet
+    else:
+        return 0,bytearray()
 
 handler_func = {
     '1':LongitudeAndLaititude,
