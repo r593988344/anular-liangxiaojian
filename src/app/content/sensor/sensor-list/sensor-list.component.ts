@@ -13,6 +13,7 @@ export class SensorListComponent implements OnInit {
   dialog: boolean = false;
   vibrationThresholdId: any;
   vibrationThresholdVal: any;
+  sectionId: any;
   constructor(private sensorListService: SensorListService) { }
   getSensorLists() {
     this.sensorListService.getSensorList()
@@ -21,15 +22,16 @@ export class SensorListComponent implements OnInit {
       });
   }
   confirmChange() {
-    this.sensorListService.change(this.vibrationThresholdId, this.vibrationThresholdVal)
+    this.sensorListService.change(this.vibrationThresholdId, this.vibrationThresholdVal, this.sectionId)
       .subscribe(() => {
         this.dialog = false;
         this.getSensorLists();
       });
   }
-  edit(id, value) {
-    this.vibrationThresholdId = id;
+  edit(id1, value, id2) {
+    this.vibrationThresholdId = id1;
     this.vibrationThresholdVal = value;
+    this.sectionId = id2;
     this.dialog = true;
   }
   cancel() {

@@ -18,8 +18,8 @@ export class SensorListService {
     // return SensorListMock;
     return this.http.get<SensorConfig>(this.sensorListUrl);
 }
-  change(id, value) {
-    let data = { id: id, value: value}
+  change(id1, value, id2) {
+    const data = { id1: id1, value: value, id2: id2};
     return this.http.get(this.changeUrl, { params: data });
 }
 constructor(private http: HttpClient) { }
